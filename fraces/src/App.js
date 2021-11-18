@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
-
+import { useState, useEffect } from 'react';
+import Frase from "./components/Frase";
 
 
 const Contenedor = styled.div`
@@ -25,17 +26,31 @@ const Boton = styled.button`
 
 function App() {
 
+  const [frase, gardarFrase] = useState({});
+
   const conSultarAPI = async () => {
     const api = await fetch(`https://breakingbadapi.com/api/quote/random`)
     const frase = await api.json();
-    console.log(frase[0]);
+    gardarFrase(frase[0]);
   };
+
+  useEffect(() => {
+    conSultarAPI();
+  }, []);
+
 
   return (
     <Contenedor>
+
+      <Frase
+        frase={frase}
+      />
+
       <Boton
         onClick={() => conSultarAPI()}
       >Obtener Frace</Boton>
+
+
     </Contenedor >
 
   );
